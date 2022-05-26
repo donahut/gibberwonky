@@ -10,11 +10,8 @@ export class BadHash implements Hasher<string> {
   }
 
   public hash(hashable: string): number {
-    const min = Math.ceil(0);
-    const max = Math.floor(this.bits);
-    const seed = Math.floor(Math.random() * (max - min) + min);
     return hashable
       .split('')
-      .reduce((prev, curr) => prev + curr.charCodeAt(0), seed);
+      .reduce((prev, curr) => prev + curr.charCodeAt(0), 0);
   }
 }
