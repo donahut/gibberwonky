@@ -16,8 +16,8 @@ const { Pronounceable } = require('@eudes/pronounceable');
 export enum Choice {
   A = 'A',
   B = 'B',
-  BOTH = 'Both',
-  NEITHER = 'Neither'
+  BOTH = 'BOTH',
+  NEITHER = 'NEITHER'
 }
 
 export interface Matchup {
