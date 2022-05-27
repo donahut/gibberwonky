@@ -15,23 +15,23 @@ function validate() {
 
 async function main() {
   const opts = validate();
-  const engine = new Engine(Players.BOROGROVE);
+  const engine = new Engine(Players.JABBERWOCK);
   await engine.init();
 
   // Initialize game state
   const slate = engine.generateSlate();
 
   // Play rounds
-  console.log('Spot the Fake!');
+  console.log('Spot the Fake!\n');
   for (let round = 0; round < slate.matchups.length; round++) {
     console.log(`${slate.matchups[round].a} vs. ${slate.matchups[round].b} ?`);
+    console.log(`Answer: ${slate.matchups[round].answer}`);
     console.log(
-      `${slate.matchups[round].answer} vs. ${engine.player.choice(
+      `Bot (${engine.player.name}): ${engine.player.choice(
         slate.matchups[round].a,
         slate.matchups[round].b
-      )}`
+      )}\n`
     );
-    console.log('\n');
   }
 }
 

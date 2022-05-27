@@ -28,12 +28,12 @@ export abstract class Player {
 
 export class Borogove extends Player {
   name = Players.BOROGROVE;
-  bloom = new BloomFilter(Quality.Awful);
+  bloom = new BloomFilter(Quality.Bad);
 }
 
 export class Jubjub extends Player {
   name = Players.JUBJUB;
-  bloom = new BloomFilter(Quality.Bad);
+  bloom = new BloomFilter(Quality.Mediocre);
 }
 
 export class Bandersnatch extends Player {
