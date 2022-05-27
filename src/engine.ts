@@ -72,20 +72,17 @@ export class Engine {
     const data = await fs.readFile(wordListPath, 'utf8');
     const buffer = Buffer.from(data, 'utf-8');
     const words = buffer.toString().split('\n');
-    const filtered = words.filter(
-      (word) => word.length > 3 && this.pronouncer.score(word) <= 0.05
-    );
-    //console.log(`Words: ${filtered.length}`);
+    const filtered = words.filter((word) => word.length > 3);
     this.shuffle(filtered); // mutates in place
     filtered.forEach((word) => {
       this.dictionary.add(word);
-      this.player.train(word);
-      if (this.reals.size < 100) {
-        this.reals.add(word);
+      if (this.pronouncer.score(word) <= 0.05) {
+        this.player.train(word);
+        if (this.reals.size < 100) {
+          this.reals.add(word);
+        }
       }
     });
-    /* console.log(`Bloom full? ${this.player.bloom.full()}`);
-    console.log(`Bloom bitarray ${(this.player.bloom as any).bitarray}`); */
   }
 
   // https://stackoverflow.com/a/12646864

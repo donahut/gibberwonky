@@ -127,7 +127,7 @@ async function main() {
     );
   } else if (botScore > playerScore) {
     console.log(
-      `😞  Unfortunately, you lost The Vorpal Cup to  {engine.player.avatar} ${engine.player.name} ${engine.player.avatar} ! 🏆 \n`
+      `😞  Unfortunately, you lost The Vorpal Cup to  ${engine.player.avatar} ${engine.player.name} ${engine.player.avatar} ! 🏆 \n`
     );
   } else {
     console.log(`Womp womp... it's a tie... Better luck next time!\n`);
