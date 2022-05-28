@@ -1,29 +1,18 @@
 import readline from 'readline-sync';
-import { Command } from 'commander';
 
 import { Engine, Choice } from './engine';
 import { Avatars, Players } from './players';
 
-/**
- * Validate all provided arguments
- */
-function validate() {
-  const program = new Command();
-  program.parse(process.argv);
-  return program.opts();
-}
-
 async function main() {
-  const opts = validate();
   console.log(
-    `💥   Welcome to Gibberwonky!  💥\n
+    `\n💥   Welcome to Gibberwonky!  💥\n
     "It's a whole lot of nonsense!"\n`
   );
   console.log(
     `Here's how it works:\n
     - It's a Man vs. Machine 1-on-1 showdown\n
     - I'll present you both with two words\n
-    - You both tell me if either: A, B, Both or Neither are fake\n
+    - You both tell me if: one, both or neither are fake\n
     - Most correct responses by the end of 10 rounds wins... The Vorpal Cup!\n`
   );
 

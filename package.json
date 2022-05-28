@@ -18,7 +18,6 @@
   "dependencies": {
     "@eudes/pronounceable": "^2.0.2",
     "chance": "^1.1.8",
-    "commander": "^9.2.0",
     "murmurhash": "^2.0.1",
     "readline-sync": "^1.4.10",
     "word-list": "^3.1.0"
