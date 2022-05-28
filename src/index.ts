@@ -20,10 +20,10 @@ async function main() {
   if (readline.keyInYN('Are you ready to play?')) {
     console.log(`\nAll right! Let's choose your opponent...`);
     const champions = [
-      `${Avatars.BOROGROVE}  ${Players.BOROGROVE}: A shabby, not so fearsome foe`,
-      `${Avatars.JUBJUB}  ${Players.JUBJUB}: A passionate, but desparate player`,
-      `${Avatars.BANDERSNATCH}  ${Players.BANDERSNATCH}: A cunning and swift mind`,
-      `${Avatars.JABBERWOCK}  ${Players.JABBERWOCK}: The one true nonsense Monster`
+      `${Avatars.BOROGROVE}  ${Players.BOROGROVE}\t A shabby, not so fearsome foe`,
+      `${Avatars.JUBJUB}  ${Players.JUBJUB}\t\t A passionate, but desparate player`,
+      `${Avatars.BANDERSNATCH}  ${Players.BANDERSNATCH}\t A cunning and swift mind`,
+      `${Avatars.JABBERWOCK}  ${Players.JABBERWOCK}\t The one true nonsense Monster`
     ];
     const choice = readline.keyInSelect(champions, 'Who will it be?');
     if (choice === -1) {
