@@ -21,10 +21,10 @@ async function main() {
   );
   console.log(
     `Here's how it works:\n
-      - It's a Man vs. Machine 1-on-1 showdown\n
-      - I'll present you both with two words\n
-      - You both tell me if either: A, B, Both or Neither are fake\n
-      - Most correct responses by the end of 10 rounds wins... The Vorpal Cup!\n`
+    - It's a Man vs. Machine 1-on-1 showdown\n
+    - I'll present you both with two words\n
+    - You both tell me if either: A, B, Both or Neither are fake\n
+    - Most correct responses by the end of 10 rounds wins... The Vorpal Cup!\n`
   );
 
   let opponent: Players;
@@ -65,12 +65,21 @@ async function main() {
   // Play rounds
   while (round < slate.matchups.length && !forfeited) {
     console.log(`🥊   Round ${round + 1}   🥊 \n`);
+
+    // Sleep for dramatic effect
+    await new Promise((r) => setTimeout(r, 500));
+
     console.log(`🕵️   Which is the fake... \n`);
     console.log(
-      `❔ ${slate.matchups[round].a} vs. ${slate.matchups[round].b} ❔`
+      `❔  ${slate.matchups[round].a}  or  ${slate.matchups[round].b}  ❔`
     );
 
-    const choices = [Choice.A, Choice.B, Choice.BOTH, Choice.NEITHER];
+    const choices = [
+      slate.matchups[round].a,
+      slate.matchups[round].b,
+      Choice.BOTH,
+      Choice.NEITHER
+    ];
     const choice = readline.keyInSelect(choices, 'Is it...');
     if (choice === -1) {
       forfeited = true;
@@ -85,15 +94,7 @@ async function main() {
 
     console.log(`\nYou said: ${playerAnswer}\n`);
     console.log(`${engine.player.avatar} said: ${botAnswer}\n`);
-    console.log(
-      `The correct answer was... ${
-        answer === Choice.A
-          ? `${answer}: ${slate.matchups[round].a}`
-          : Choice[answer] === Choice.B
-          ? `${answer}: ${slate.matchups[round].b}`
-          : Choice[answer]
-      }\n`
-    );
+    console.log(`The correct answer was... ${answer}\n`);
 
     if (playerAnswer === answer && botAnswer !== answer) {
       console.log(`✨  You got it! Take that ${engine.player.name}! 😎 \n`);

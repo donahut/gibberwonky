@@ -14,8 +14,6 @@ import {
 const { Pronounceable } = require('@eudes/pronounceable');
 
 export enum Choice {
-  A = 'A',
-  B = 'B',
   BOTH = 'BOTH',
   NEITHER = 'NEITHER'
 }
@@ -23,7 +21,7 @@ export enum Choice {
 export interface Matchup {
   a: string;
   b: string;
-  answer: Choice;
+  answer: string | Choice;
 }
 
 export interface Slate {
@@ -31,11 +29,12 @@ export interface Slate {
 }
 
 export class Engine {
+  private chancer: Chance.Chance;
+  private pronouncer: typeof Pronounceable;
+
   private dictionary: Set<string>;
   private reals: Set<string>;
   private fakes: Set<string>;
-  private chancer: Chance.Chance;
-  private pronouncer: typeof Pronounceable;
 
   public player: Player;
 
@@ -78,7 +77,7 @@ export class Engine {
       this.dictionary.add(word);
       if (this.pronouncer.score(word) <= 0.05) {
         this.player.train(word);
-        if (this.reals.size < 100) {
+        if (this.reals.size < 100 && word !== 'neither' && word !== 'both') {
           this.reals.add(word);
         }
       }
@@ -115,15 +114,15 @@ export class Engine {
     };
     for (let i = 0; i < 10; i++) {
       const roll = this.chancer.d4();
-      let a: string, b: string, c: Choice;
+      let a: string, b: string, c: string | Choice;
       if (roll === 1) {
         a = realItr.next().value;
         b = fakeItr.next().value;
-        c = Choice.B;
+        c = b;
       } else if (roll === 2) {
         a = fakeItr.next().value;
         b = realItr.next().value;
-        c = Choice.A;
+        c = a;
       } else if (roll === 3) {
         a = realItr.next().value;
         b = realItr.next().value;
@@ -134,9 +133,9 @@ export class Engine {
         c = Choice.BOTH;
       }
       slate.matchups.push({
-        a,
-        b,
-        answer: c
+        a: a.toUpperCase(),
+        b: b.toUpperCase(),
+        answer: c.toUpperCase()
       });
     }
     return slate;

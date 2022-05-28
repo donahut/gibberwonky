@@ -27,7 +27,7 @@ export class CryptoHash implements Hasher<string> {
       .createHash('md5')
       .update(hashable, 'utf-8')
       .digest('hex');
-    return parseInt(hash.substring(0, 8), 16);;
+    return parseInt(hash.substring(0, 8), 16);
   }
 }
 
