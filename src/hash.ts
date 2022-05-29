@@ -1,10 +1,16 @@
 import crypto from 'crypto';
 import murmur from 'murmurhash';
 
+/**
+ * Simple Hash interface/contract for simplified plug'n'play usage elsewhere (e.g. BloomFilter)
+ */
 export interface Hasher<T> {
   hash(hashable: T): number;
 }
 
+/**
+ * Homemade hash function inspired by DJB (https://en.wikipedia.org/wiki/Daniel_J._Bernstein)
+ */
 export class BadHash implements Hasher<string> {
   public hash(hashable: string): number {
     return hashable
@@ -13,6 +19,9 @@ export class BadHash implements Hasher<string> {
   }
 }
 
+/**
+ * Implementation of DJB's djb2 Hash (https://theartincode.stanis.me/008-djb2/)
+ */
 export class BetterHash implements Hasher<string> {
   public hash(hashable: string): number {
     return hashable
@@ -21,6 +30,9 @@ export class BetterHash implements Hasher<string> {
   }
 }
 
+/**
+ * Hash utilizing a (truncated) MD5 cryptographic hash (https://en.wikipedia.org/wiki/MD5)
+ */
 export class CryptoHash implements Hasher<string> {
   public hash(hashable: string): number {
     const hash = crypto
@@ -31,6 +43,9 @@ export class CryptoHash implements Hasher<string> {
   }
 }
 
+/**
+ * Wrapper for MurmurHash (https://en.wikipedia.org/wiki/MurmurHash)
+ */
 export class ProHash implements Hasher<string> {
   public hash(hashable: string): number {
     return murmur.v3(hashable);

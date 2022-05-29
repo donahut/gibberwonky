@@ -1,12 +1,8 @@
 import { Hasher, BadHash, BetterHash, ProHash, CryptoHash } from './hash';
 
-export enum Quality {
-  Bad,
-  Mediocre,
-  Good,
-  Superb
-}
-
+/**
+ * Simple customizable Bloom Filter
+ */
 export class BloomFilter {
   private bits: number;
   private bitarray: Uint8Array;
@@ -22,7 +18,7 @@ export class BloomFilter {
     this.bitarray = new Uint8Array(this.bits).fill(0);
   }
 
-  add(element: string) {
+  add(element: string): void {
     this.hashers.forEach((hasher) => {
       this.bitarray[hasher.hash(element) % this.bits] = 1;
     });
@@ -39,6 +35,22 @@ export class BloomFilter {
   }
 }
 
+/**
+ * Quality Enum for use with TunedBloomFilter
+ * Some are purposefully bad for use in Gibberwonky bot players
+ */
+export enum Quality {
+  Bad,
+  Mediocre,
+  Good,
+  Superb
+}
+
+/**
+ * BloomFilter that can be tuned from Bad to "Superb" performance
+ *    Note: Even the "Superb" tuning is purposefully not perfect
+ *          (to make Gibberwonky more interesting)
+ */
 export class TunedBloomFilter extends BloomFilter {
   constructor(quality: Quality) {
     switch (quality) {

@@ -88,7 +88,7 @@ async function main() {
       continue;
     }
     const playerAnswer = choice;
-    const botAnswer = engine.player.choice(
+    const botAnswer = engine.player.choose(
       slate.matchups[round].a,
       slate.matchups[round].b
     );

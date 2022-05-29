@@ -1,6 +1,9 @@
 import { TunedBloomFilter, Quality } from './bloom';
 import { Choice } from './engine';
 
+/**
+ * Gibberwonky Opponent Player Names
+ */
 export enum Players {
   BOROGROVE = 'Borogove',
   JUBJUB = 'Jubjub',
@@ -8,6 +11,9 @@ export enum Players {
   JABBERWOCK = 'Jabberwock'
 }
 
+/**
+ * Gibberwonky Opponent Player Avatars
+ */
 export enum Avatars {
   BOROGROVE = '🐗',
   JUBJUB = '🦤 ',
@@ -15,6 +21,9 @@ export enum Avatars {
   JABBERWOCK = '🐉'
 }
 
+/**
+ * Gibberwonky Opponent Player Descriptions
+ */
 export enum Descriptions {
   BOROGROVE = 'A shabby, not so fearsome foe',
   JUBJUB = 'A passionate, but desparate player',
@@ -22,6 +31,9 @@ export enum Descriptions {
   JABBERWOCK = 'The one true nonsense Monster'
 }
 
+/**
+ * Gibberwonky Opponent (Abstract) Player
+ */
 export abstract class Player {
   abstract readonly name: Players;
   abstract readonly avatar: Avatars;
@@ -32,7 +44,7 @@ export abstract class Player {
     this.bloom.add(word);
   }
 
-  choice(a: string, b: string): Choice {
+  choose(a: string, b: string): Choice {
     const realA = this.bloom.contains(a);
     const realB = this.bloom.contains(b);
     if (realA && realB) return Choice.NEITHER;
@@ -42,6 +54,14 @@ export abstract class Player {
   }
 }
 
+/**
+ * All Gibberwonky opponent player names inspired by creatures from Jabberwocky Poem
+ *    https://en.wikipedia.org/wiki/Jabberwocky
+ */
+
+/**
+ * Borogove, the worst Gibberwonky opponent
+ */
 export class Borogove extends Player {
   name = Players.BOROGROVE;
   avatar = Avatars.BOROGROVE;
@@ -49,6 +69,9 @@ export class Borogove extends Player {
   bloom = new TunedBloomFilter(Quality.Bad);
 }
 
+/**
+ * Jubjub, an OK/mediocre Gibberwonky opponent
+ */
 export class Jubjub extends Player {
   name = Players.JUBJUB;
   avatar = Avatars.JUBJUB;
@@ -56,6 +79,9 @@ export class Jubjub extends Player {
   bloom = new TunedBloomFilter(Quality.Mediocre);
 }
 
+/**
+ * Bandersnatch, a really solid, but potentially beatable Gibberwonky opponent
+ */
 export class Bandersnatch extends Player {
   name = Players.BANDERSNATCH;
   avatar = Avatars.BANDERSNATCH;
@@ -63,6 +89,9 @@ export class Bandersnatch extends Player {
   bloom = new TunedBloomFilter(Quality.Good);
 }
 
+/**
+ * Jabberwock, almost perfect Gibberwonky player that's virtually impossible to beat
+ */
 export class Jabberwock extends Player {
   name = Players.JABBERWOCK;
   avatar = Avatars.JABBERWOCK;

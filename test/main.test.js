@@ -61,7 +61,7 @@ const accuracy = test.macro(async (t, name, min, max) => {
     const slate = engine.generateSlate(20);
     let correct = 0;
     for (const matchup of slate.matchups) {
-        if (engine.player.choice(matchup.a, matchup.b) === matchup.answer) {
+        if (engine.player.choose(matchup.a, matchup.b) === matchup.answer) {
             correct++;
         }
     }
