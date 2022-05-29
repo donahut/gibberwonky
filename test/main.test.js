@@ -60,10 +60,10 @@ const falsePositive = test.macro(async (t, name, min, max) => {
     t.true(fpositives >= min && fpositives <= max);
 });
 
-test.serial('Borogove False Positive', falsePositive, 'Borogove', 60, 100);
-test.serial('Jubjub False Positive ', falsePositive, 'Jubjub', 40, 80);
-test.serial('Bandersnatch False Positive', falsePositive, 'Bandersnatch', 20, 60);
-test.serial('Jabberwock False Positive', falsePositive, 'Jabberwock', 0, 40);
+test.serial('Borogove False Positive', falsePositive, 'Borogove', 40, 100);
+test.serial('Jubjub False Positive ', falsePositive, 'Jubjub', 20, 80);
+test.serial('Bandersnatch False Positive', falsePositive, 'Bandersnatch', 0, 60);
+test.serial('Jabberwock False Positive', falsePositive, 'Jabberwock', 0, 20);
 
 const accuracy = test.macro(async (t, name, min, max) => {
     const engine = await engineSetup(name);
@@ -78,7 +78,7 @@ const accuracy = test.macro(async (t, name, min, max) => {
     t.true(correct >= min && correct <= max);
 });
 
-test.serial('Borogove Accuracy', accuracy, 'Borogove', 0, 8);
-test.serial('Jubjub Accuracy', accuracy, 'Jubjub', 4, 12);
-test.serial('Bandersnatch Accuracy', accuracy, 'Bandersnatch', 10, 18);
-test.serial('Jabberwock Accuracy', accuracy, 'Jabberwock', 16, 20);
+test.serial('Borogove Accuracy', accuracy, 'Borogove', 0, 14);
+test.serial('Jubjub Accuracy', accuracy, 'Jubjub', 4, 16);
+test.serial('Bandersnatch Accuracy', accuracy, 'Bandersnatch', 10, 20);
+test.serial('Jabberwock Accuracy', accuracy, 'Jabberwock', 14, 20);
