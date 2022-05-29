@@ -9,7 +9,7 @@ export enum Quality {
 
 export class BloomFilter {
   private bits: number;
-  private bitarray: Array<number>;
+  private bitarray: Uint8Array;
   private hashers: Array<Hasher<string>>;
 
   constructor(quality: Quality) {
@@ -31,7 +31,7 @@ export class BloomFilter {
         this.hashers = [new ProHash(), new CryptoHash()];
         break;
     }
-    this.bitarray = new Array(this.bits).fill(0);
+    this.bitarray = new Uint8Array(this.bits).fill(0);
   }
 
   add(element: string) {
