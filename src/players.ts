@@ -1,4 +1,4 @@
-import { BloomFilter, Quality } from './bloom';
+import { TunedBloomFilter, Quality } from './bloom';
 import { Choice } from './engine';
 
 export enum Players {
@@ -26,7 +26,7 @@ export abstract class Player {
   abstract readonly name: Players;
   abstract readonly avatar: Avatars;
   abstract readonly desc: string;
-  abstract readonly bloom: BloomFilter;
+  abstract readonly bloom: TunedBloomFilter;
 
   train(word: string): void {
     this.bloom.add(word);
@@ -46,26 +46,26 @@ export class Borogove extends Player {
   name = Players.BOROGROVE;
   avatar = Avatars.BOROGROVE;
   desc = Descriptions.BOROGROVE;
-  bloom = new BloomFilter(Quality.Bad);
+  bloom = new TunedBloomFilter(Quality.Bad);
 }
 
 export class Jubjub extends Player {
   name = Players.JUBJUB;
   avatar = Avatars.JUBJUB;
   desc = Descriptions.JUBJUB;
-  bloom = new BloomFilter(Quality.Mediocre);
+  bloom = new TunedBloomFilter(Quality.Mediocre);
 }
 
 export class Bandersnatch extends Player {
   name = Players.BANDERSNATCH;
   avatar = Avatars.BANDERSNATCH;
   desc = Descriptions.BANDERSNATCH;
-  bloom = new BloomFilter(Quality.Good);
+  bloom = new TunedBloomFilter(Quality.Good);
 }
 
 export class Jabberwock extends Player {
   name = Players.JABBERWOCK;
   avatar = Avatars.JABBERWOCK;
   desc = Descriptions.JABBERWOCK;
-  bloom = new BloomFilter(Quality.Superb);
+  bloom = new TunedBloomFilter(Quality.Superb);
 }

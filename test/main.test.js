@@ -5,21 +5,12 @@ const gw_bloom = require('../build/src/bloom.js');
 test.serial('True Positive Bloom Test', async (t) => {
     const engine = new gw_engine.Engine();
     const words = await engine.loadWords();
-    const bad_bloom = new gw_bloom.BloomFilter(0);
-    const med_bloom = new gw_bloom.BloomFilter(1);
-    const good_bloom = new gw_bloom.BloomFilter(2);
-    const sup_bloom = new gw_bloom.BloomFilter(3);
+    const bloom = new gw_bloom.BloomFilter(100000);
     words.forEach(word => {
-        bad_bloom.add(word);
-        med_bloom.add(word);
-        good_bloom.add(word);
-        sup_bloom.add(word);
+        bloom.add(word);
     });
     for (const word of words) {
-        t.true(bad_bloom.contains(word));
-        t.true(med_bloom.contains(word));
-        t.true(good_bloom.contains(word));
-        t.true(sup_bloom.contains(word));
+        t.true(bloom.contains(word));
     }
 });
 
