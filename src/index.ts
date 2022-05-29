@@ -1,6 +1,6 @@
 import readline from 'readline-sync';
 
-import { Engine, Choice } from './engine';
+import { Engine } from './engine';
 import { Avatars, Players } from './players';
 
 async function main() {
@@ -55,36 +55,38 @@ async function main() {
   while (round < slate.matchups.length && !forfeited) {
     console.log(`🥊   Round ${round + 1}   🥊 \n`);
 
+    const interfaceChoices = {
+      A: slate.matchups[round].a.toUpperCase(),
+      B: slate.matchups[round].b.toUpperCase(),
+      BOTH: 'BOTH',
+      NEITHER: 'NEITHER'
+    };
+
     // Sleep for dramatic effect
     await new Promise((r) => setTimeout(r, 500));
 
+    // Pose choice to user
     console.log(`🕵️   Which is the fake... \n`);
-    console.log(
-      `❔  ${slate.matchups[round].a}  or  ${slate.matchups[round].b}  ❔`
-    );
+    console.log(`❔  ${interfaceChoices.A}  or  ${interfaceChoices.B}  ❔`);
 
-    const choices = [
-      slate.matchups[round].a,
-      slate.matchups[round].b,
-      Choice.BOTH,
-      Choice.NEITHER
-    ];
-    const choice = readline.keyInSelect(choices, 'Is it...');
+    // Gather user & bot answers
+    const choices = Object.values(interfaceChoices);
+    const choice = readline.keyInSelect(choices, 'Is it...') as number;
     if (choice === -1) {
       forfeited = true;
       continue;
     }
-    const playerAnswer = choices[choice];
+    const playerAnswer = choice;
     const botAnswer = engine.player.choice(
       slate.matchups[round].a,
       slate.matchups[round].b
     );
     const answer = slate.matchups[round].answer;
 
-    console.log(`\nYou said: ${playerAnswer}\n`);
-    console.log(`${engine.player.avatar} said: ${botAnswer}\n`);
-    console.log(`The correct answer was... ${answer}\n`);
-
+    // Round feedback to user
+    console.log(`\nYou said: ${choices[choice]}\n`);
+    console.log(`${engine.player.avatar} said: ${choices[botAnswer]}\n`);
+    console.log(`The correct answer was... ${choices[answer]}\n`);
     if (playerAnswer === answer && botAnswer !== answer) {
       console.log(`✨  You got it! Take that ${engine.player.name}! 😎 \n`);
     } else if (playerAnswer === answer && botAnswer === answer) {
@@ -106,6 +108,7 @@ async function main() {
     console.log(`--------------------\n`);
     round++;
   }
+  // Endgame recaps to user
   if (forfeited) {
     console.log(`--------------------\n`);
     console.log(

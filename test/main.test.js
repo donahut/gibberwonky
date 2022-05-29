@@ -1,6 +1,5 @@
 const test = require('ava');
 const gw_engine = require('../build/src/engine.js');
-const gw_players = require('../build/src/players.js');
 const gw_bloom = require('../build/src/bloom.js');
 
 test.serial('True Positive Bloom Test', async (t) => {
@@ -30,6 +29,25 @@ async function engineSetup(name) {
     return engine;
 }
 
+test.serial('Fakes are fake', async (t) => {
+    const engine = await engineSetup();
+    for (const fake of engine.fakes) {
+        t.true(!engine.dictionary.has(fake));
+    }
+});
+
+const truePositive = test.macro(async (t, name) => {
+    const engine = await engineSetup(name);
+    for (const real of engine.reals) {
+        t.true(engine.player.bloom.contains(real));
+    }
+});
+
+test.serial('Borogove True Positive', truePositive, 'Borogove');
+test.serial('Jubjub True Positive ', truePositive, 'Jubjub');
+test.serial('Bandersnatch True Positive', truePositive, 'Bandersnatch');
+test.serial('Jabberwock True Positive', truePositive, 'Jabberwock');
+
 const falsePositive = test.macro(async (t, name, min, max) => {
     const engine = await engineSetup(name);
 
@@ -42,25 +60,25 @@ const falsePositive = test.macro(async (t, name, min, max) => {
     t.true(fpositives >= min && fpositives <= max);
 });
 
-test('False Positive Borogove Test', falsePositive, 'Borogove', 60, 100);
-test('False Positive Jubjub Test', falsePositive, 'Jubjub', 40, 80);
-test('False Positive Bandersnatch Test', falsePositive, 'Bandersnatch', 20, 60);
-test('False Positive Jabberwock Test', falsePositive, 'Jabberwock', 0, 40);
+test.serial('Borogove False Positive', falsePositive, 'Borogove', 60, 100);
+test.serial('Jubjub False Positive ', falsePositive, 'Jubjub', 40, 80);
+test.serial('Bandersnatch False Positive', falsePositive, 'Bandersnatch', 20, 60);
+test.serial('Jabberwock False Positive', falsePositive, 'Jabberwock', 0, 40);
 
 const accuracy = test.macro(async (t, name, min, max) => {
     const engine = await engineSetup(name);
     const slate = engine.generateSlate(20);
-
     let correct = 0;
     for (const matchup of slate.matchups) {
-        if (engine.player.choice(matchup.a, matchup.b) === matchup.answer)
+        if (engine.player.choice(matchup.a, matchup.b) === matchup.answer) {
             correct++;
+        }
     }
     console.log(`${name} Accuracy: ${correct} / ${slate.matchups.length}`)
     t.true(correct >= min && correct <= max);
 });
 
-test('Borogove Accuracy Test', accuracy, 'Borogove', 0, 8);
-test('Jubjub Accuracy Test', accuracy, 'Jubjub', 4, 12);
-test('Bandersnatch Accuracy Test', accuracy, 'Bandersnatch', 10, 18);
-test('Jabberwock Accuracy Test', accuracy, 'Jabberwock', 16, 20);
+test.serial('Borogove Accuracy', accuracy, 'Borogove', 0, 8);
+test.serial('Jubjub Accuracy', accuracy, 'Jubjub', 4, 12);
+test.serial('Bandersnatch Accuracy', accuracy, 'Bandersnatch', 10, 18);
+test.serial('Jabberwock Accuracy', accuracy, 'Jabberwock', 16, 20);

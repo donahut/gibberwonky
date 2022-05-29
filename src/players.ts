@@ -24,12 +24,12 @@ export abstract class Player {
     this.bloom.add(word);
   }
 
-  choice(a: string, b: string): string | Choice {
+  choice(a: string, b: string): Choice {
     const realA = this.bloom.contains(a);
     const realB = this.bloom.contains(b);
     if (realA && realB) return Choice.NEITHER;
-    else if (realA) return b;
-    else if (realB) return a;
+    else if (realA) return Choice.B;
+    else if (realB) return Choice.A;
     else return Choice.BOTH;
   }
 }

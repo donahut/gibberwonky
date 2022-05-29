@@ -27,8 +27,8 @@ export class BloomFilter {
         this.hashers = [new BetterHash()];
         break;
       case Quality.Superb:
-        this.bits = 600000;
-        this.hashers = [new ProHash(), new CryptoHash()];
+        this.bits = 800000;
+        this.hashers = [new ProHash(), new BetterHash(), new CryptoHash()];
         break;
     }
     this.bitarray = new Uint8Array(this.bits).fill(0);

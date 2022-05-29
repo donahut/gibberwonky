@@ -14,14 +14,16 @@ import {
 const { Pronounceable } = require('@eudes/pronounceable');
 
 export enum Choice {
-  BOTH = 'BOTH',
-  NEITHER = 'NEITHER'
+  A,
+  B,
+  BOTH,
+  NEITHER
 }
 
 export interface Matchup {
   a: string;
   b: string;
-  answer: string | Choice;
+  answer: Choice;
 }
 
 export interface Slate {
@@ -119,28 +121,28 @@ export class Engine {
     };
     for (let i = 0; i < matchups; i++) {
       const roll = this.chancer.d4();
-      let a: string, b: string, c: string | Choice;
+      let a: string, b: string, answer: Choice;
       if (roll === 1) {
         a = realItr.next().value;
         b = fakeItr.next().value;
-        c = b;
+        answer = Choice.B;
       } else if (roll === 2) {
         a = fakeItr.next().value;
         b = realItr.next().value;
-        c = a;
+        answer = Choice.A;
       } else if (roll === 3) {
         a = realItr.next().value;
         b = realItr.next().value;
-        c = Choice.NEITHER;
+        answer = Choice.NEITHER;
       } else {
         a = fakeItr.next().value;
         b = fakeItr.next().value;
-        c = Choice.BOTH;
+        answer = Choice.BOTH;
       }
       slate.matchups.push({
-        a: a.toUpperCase(),
-        b: b.toUpperCase(),
-        answer: c.toUpperCase()
+        a,
+        b,
+        answer
       });
     }
     return slate;
