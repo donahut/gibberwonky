@@ -15,10 +15,18 @@ export enum Avatars {
   JABBERWOCK = '🐉'
 }
 
+export enum Descriptions {
+  BOROGROVE = 'A shabby, not so fearsome foe',
+  JUBJUB = 'A passionate, but desparate player',
+  BANDERSNATCH = 'A cunning and swift mind',
+  JABBERWOCK = 'The one true nonsense Monster'
+}
+
 export abstract class Player {
-  abstract readonly bloom: BloomFilter;
   abstract readonly name: Players;
   abstract readonly avatar: Avatars;
+  abstract readonly desc: string;
+  abstract readonly bloom: BloomFilter;
 
   train(word: string): void {
     this.bloom.add(word);
@@ -37,23 +45,27 @@ export abstract class Player {
 export class Borogove extends Player {
   name = Players.BOROGROVE;
   avatar = Avatars.BOROGROVE;
+  desc = Descriptions.BOROGROVE;
   bloom = new BloomFilter(Quality.Bad);
 }
 
 export class Jubjub extends Player {
   name = Players.JUBJUB;
   avatar = Avatars.JUBJUB;
+  desc = Descriptions.JUBJUB;
   bloom = new BloomFilter(Quality.Mediocre);
 }
 
 export class Bandersnatch extends Player {
   name = Players.BANDERSNATCH;
   avatar = Avatars.BANDERSNATCH;
+  desc = Descriptions.BANDERSNATCH;
   bloom = new BloomFilter(Quality.Good);
 }
 
 export class Jabberwock extends Player {
   name = Players.JABBERWOCK;
   avatar = Avatars.JABBERWOCK;
+  desc = Descriptions.JABBERWOCK;
   bloom = new BloomFilter(Quality.Superb);
 }

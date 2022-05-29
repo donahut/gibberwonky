@@ -15,16 +15,16 @@ export class BloomFilter {
   constructor(quality: Quality) {
     switch (quality) {
       case Quality.Bad:
-        this.bits = 300000;
+        this.bits = 100000;
         this.hashers = [new BadHash()];
         break;
       case Quality.Mediocre:
-        this.bits = 150000;
-        this.hashers = [new CryptoHash()];
+        this.bits = 100000;
+        this.hashers = [new BetterHash()];
         break;
       case Quality.Good:
-        this.bits = 200000;
-        this.hashers = [new BetterHash()];
+        this.bits = 400000;
+        this.hashers = [new CryptoHash()];
         break;
       case Quality.Superb:
         this.bits = 800000;

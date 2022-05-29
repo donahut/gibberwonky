@@ -1,7 +1,7 @@
 import readline from 'readline-sync';
 
 import { Engine } from './engine';
-import { Avatars, Players } from './players';
+import { Avatars, Descriptions, Players } from './players';
 
 async function main() {
   console.log(
@@ -10,38 +10,49 @@ async function main() {
   );
   console.log(
     `Here's how it works:\n
-    - It's a Man vs. Machine 1-on-1 showdown\n
+    - It's a 1-on-1, Man vs. Machine showdown\n
     - I'll present you both with two words\n
     - You both tell me if: one, both or neither are fake\n
     - Most correct responses by the end of 10 rounds wins... The Vorpal Cup!\n`
   );
 
-  let opponent: Players;
+  let engine: Engine;
+  let initPr: Promise<void>;
+
+  // Ready to play / Opponent choice
   if (readline.keyInYN('Are you ready to play?')) {
     console.log(`\nAll right! Let's choose your opponent...`);
     const champions = [
-      `${Avatars.BOROGROVE}  ${Players.BOROGROVE}\t A shabby, not so fearsome foe`,
-      `${Avatars.JUBJUB}  ${Players.JUBJUB}\t\t A passionate, but desparate player`,
-      `${Avatars.BANDERSNATCH}  ${Players.BANDERSNATCH}\t A cunning and swift mind`,
-      `${Avatars.JABBERWOCK}  ${Players.JABBERWOCK}\t The one true nonsense Monster`
+      ` ${Avatars.BOROGROVE}  ${Players.BOROGROVE}\t ${Descriptions.BOROGROVE}`,
+      ` ${Avatars.JUBJUB}  ${Players.JUBJUB}\t\t ${Descriptions.JUBJUB}`,
+      ` ${Avatars.BANDERSNATCH}  ${Players.BANDERSNATCH}\t ${Descriptions.BANDERSNATCH}`,
+      ` ${Avatars.JABBERWOCK}  ${Players.JABBERWOCK}\t ${Descriptions.JABBERWOCK}`
     ];
     const choice = readline.keyInSelect(champions, 'Who will it be?');
     if (choice === -1) {
       console.log(`I understand, they're pretty intimidating!`);
       process.exit();
     }
-    opponent = Object.values(Players)[choice];
+
+    // Initialize engine
+    const opponent = Object.values(Players)[choice];
+    engine = new Engine(opponent);
+    initPr = engine.init();
+
+    console.log(
+      `\nYou picked...  ${engine.player.avatar}  ${engine.player.name}  ${engine.player.avatar}   "${engine.player.desc}!"\n`
+    );
   } else {
     console.log('No worries, come back anytime!');
     process.exit();
   }
 
-  // Initialize game state
-  const engine = new Engine(opponent);
+  // Wait for engine word-list load/train
   console.log('Get ready to...\n');
-  await engine.init();
+  await initPr;
   console.log('SPOT! THE! FAKE!\n');
 
+  // Initialize game state
   const slate = engine.generateSlate();
   let round = 0;
   let playerScore = 0;
@@ -108,11 +119,12 @@ async function main() {
     console.log(`--------------------\n`);
     round++;
   }
+
   // Endgame recaps to user
   if (forfeited) {
     console.log(`--------------------\n`);
     console.log(
-      `You forfeited The Vorpal Cup to  ${engine.player.avatar} ${engine.player.name} ${engine.player.avatar} ! 🏆 \n`
+      `You forfeited The Vorpal Cup 🏆  to  ${engine.player.avatar} ${engine.player.name} ${engine.player.avatar} !\n`
     );
   } else if (playerScore > botScore) {
     console.log(
@@ -120,7 +132,7 @@ async function main() {
     );
   } else if (botScore > playerScore) {
     console.log(
-      `😞  Unfortunately, you lost The Vorpal Cup to  ${engine.player.avatar} ${engine.player.name} ${engine.player.avatar} ! 🏆 \n`
+      `😞  Unfortunately, you lost The Vorpal Cup 🏆  to  ${engine.player.avatar} ${engine.player.name} ${engine.player.avatar} !\n`
     );
   } else {
     console.log(`Womp womp... it's a tie... Better luck next time!\n`);
