@@ -44,6 +44,7 @@ export class Engine {
     this.fakes = new Set();
 
     switch (player) {
+      default:
       case Players.BOROGROVE:
         this.player = new Borogove();
         break;
@@ -68,12 +69,9 @@ export class Engine {
   }
 
   private async loadAndTrain() {
-    const data = await fs.readFile(wordListPath, 'utf8');
-    const buffer = Buffer.from(data, 'utf-8');
-    const words = buffer.toString().split('\n');
-    const filtered = words.filter((word) => word.length > 3);
-    this.shuffle(filtered); // mutates in place
-    filtered.forEach((word) => {
+    const words = await this.loadWords();
+    this.shuffle(words); // mutates in place
+    words.forEach((word) => {
       this.dictionary.add(word);
       if (this.pronouncer.score(word) <= 0.05) {
         this.player.train(word);
@@ -84,6 +82,13 @@ export class Engine {
     });
   }
 
+  private async loadWords() {
+    const data = await fs.readFile(wordListPath, 'utf8');
+    const buffer = Buffer.from(data, 'utf-8');
+    const words = buffer.toString().split('\n');
+    return words.filter((word) => word.length > 3);
+  }
+
   // https://stackoverflow.com/a/12646864
   private shuffle(words: string[]) {
     for (let i = words.length - 1; i > 0; i--) {
@@ -92,8 +97,8 @@ export class Engine {
     }
   }
 
-  private generateFakes() {
-    while (this.fakes.size < 100) {
+  private generateFakes(amount = 100) {
+    while (this.fakes.size < amount) {
       const nonce = this.chancer.word();
       if (
         nonce.length > 3 &&
@@ -106,13 +111,13 @@ export class Engine {
     }
   }
 
-  generateSlate(): Slate {
+  generateSlate(matchups = 10): Slate {
     const realItr = this.reals.values();
     const fakeItr = this.fakes.values();
     const slate: Slate = {
       matchups: []
     };
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < matchups; i++) {
       const roll = this.chancer.d4();
       let a: string, b: string, c: string | Choice;
       if (roll === 1) {
