@@ -1,0 +1,48 @@
+{
+  "name": "gibberwonky",
+  "version": "0.0.1",
+  "description": "A whole lot of nonsense",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava ./test",
+    "build": "npm run lint && tsc",
+    "lint": "eslint 'src/**/*.ts'",
+    "lint:fix": "eslint --fix 'src/**/*.ts'",
+    "prettier": "prettier --config .prettierrc 'src/**/*.ts'",
+    "prettier:fix": "prettier --config .prettierrc 'src/**/*.ts' --write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/donahut/gibberwonky.git"
+  },
+  "dependencies": {
+    "@eudes/pronounceable": "^2.0.2",
+    "chance": "^1.1.8",
+    "murmurhash": "^2.0.1",
+    "readline-sync": "^1.4.10",
+    "word-list": "^3.1.0"
+  },
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.2",
+    "@types/chance": "^1.1.3",
+    "@types/node": "^17.0.35",
+    "@types/readline-sync": "^1.4.4",
+    "@typescript-eslint/eslint-plugin": "^5.25.0",
+    "@typescript-eslint/parser": "^5.25.0",
+    "ava": "^4.2.0",
+    "eslint": "^8.16.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "2.6.2",
+    "typescript": "^4.6.4"
+  },
+  "keywords": [
+    "nonsense"
+  ],
+  "author": "Tom Donahue",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/donahut/gibberwonky/issues"
+  },
+  "homepage": "https://github.com/donahut/gibberwonky#readme"
+}
